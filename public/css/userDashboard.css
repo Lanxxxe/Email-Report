@@ -1,0 +1,42 @@
+main {
+    width: 100dvw;
+    height: 100dvh;
+    overflow-x: hidden;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.side-navbar {
+    flex: 0.2;
+    height: 100%;
+    width: 100%;
+    /* box-shadow: 4px 0 3px #d0d0d0; */
+}
+
+.user-task {
+    flex: 0.8;
+    box-shadow: -4px 0 3px #d0d0d0;
+}
+
+.table th, .table td {
+    background-color: transparent; /* Makes the table transparent */
+    border-width: 2px; /* Increases the border thickness */
+}
+
+.table-bordered th, 
+.table-bordered td {
+border: 1px solid #8f8f8f; /* Customizes the thickness of table cell borders */
+}
+
+.weekly-report {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}

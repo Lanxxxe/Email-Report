@@ -1,0 +1,224 @@
+{
+  "AssignedTasks": [
+    {
+      "position": "Leader",
+      "tasks": {
+        "Task1": {
+          "task": "Complete Project Proposal",
+          "actionPlan": "Research and write the project details",
+          "remarks": "Pending"
+        },
+        "Task2": {
+          "task": "Complete Design UI Mockup",
+          "actionPlan": "Prepare wireframes and prototypes",
+          "remarks": "Pending"
+        },
+        "Task3": {
+          "task": "Schedule Team Meeting",
+          "actionPlan": "Send meeting invites",
+          "remarks": "Pending"
+        },
+        "Task4": {
+          "task": "Prepare Budget Report",
+          "actionPlan": "Analyze financial data",
+          "remarks": "Pending"
+        },
+        "Task5": {
+          "task": "Submit Monthly Report",
+          "actionPlan": "Gather relevant data",
+          "remarks": "Pending"
+        },
+        "Task6": {
+          "task": "Plan Next Sprint",
+          "actionPlan": "Review backlog and prioritize tasks",
+          "remarks": "Pending"
+        },
+        "Task7": {
+          "task": "Update Stakeholders",
+          "actionPlan": "Draft and send email update",
+          "remarks": "Pending"
+        },
+        "Task8": {
+          "task": "Evaluate Team Performance",
+          "actionPlan": "Review KPIs",
+          "remarks": "Pending"
+        },
+        "Task9": {
+          "task": "Resolve Team Issues",
+          "actionPlan": "Address concerns raised by team members",
+          "remarks": "Pending"
+        },
+        "Task10": {
+          "task": "Submit Final Project Plan",
+          "actionPlan": "Finalize and present the plan to stakeholders",
+          "remarks": "Pending"
+        }
+      }
+    },
+    {
+      "position": "Counter 1",
+      "tasks": {
+        "Task1": {
+          "task": "Check Customer",
+          "actionPlan": "Check and update customer",
+          "remarks": "Done"
+        },
+        "Task2": {
+          "task": "Assist Customers",
+          "actionPlan": "Provide information and resolve queries",
+          "remarks": "Done"
+        },
+        "Task3": {
+          "task": "Manage Returns",
+          "actionPlan": "Process returned items and update system",
+          "remarks": "Done"
+        },
+        "Task4": {
+          "task": "Organize Product Display",
+          "actionPlan": "Ensure products are neatly arranged",
+          "remarks": "Done"
+        },
+        "Task5": {
+          "task": "Prepare Sales Report",
+          "actionPlan": "Gather daily sales data",
+          "remarks": "Done"
+        },
+        "Task6": {
+          "task": "Handle Payments",
+          "actionPlan": "Process cash and card transactions",
+          "remarks": "Pending"
+        },
+        "Task7": {
+          "task": "Submit Daily Cash Count",
+          "actionPlan": "Reconcile cash drawer and submit report",
+          "remarks": "Pending"
+        },
+        "Task8": {
+          "task": "Update Promotions",
+          "actionPlan": "Change price tags for promotional items",
+          "remarks": "Pending"
+        },
+        "Task9": {
+          "task": "Respond to Emails",
+          "actionPlan": "Reply to customer inquiries",
+          "remarks": "Pending"
+        },
+        "Task10": {
+          "task": "Restock Shelves",
+          "actionPlan": "Move items from the backroom to shelves",
+          "remarks": "Pending"
+        }
+      }
+    },
+    {
+      "position": "Counter 2",
+      "tasks": {
+        "Task1": {
+          "task": "Assist with Customer Service",
+          "actionPlan": "Handle inquiries and resolve issues",
+          "remarks": "Pending"
+        },
+        "Task2": {
+          "task": "Stock Shelves",
+          "actionPlan": "Ensure products are properly displayed",
+          "remarks": "Pending"
+        },
+        "Task3": {
+          "task": "Manage Cash Register",
+          "actionPlan": "Process transactions accurately",
+          "remarks": "Pending"
+        },
+        "Task4": {
+          "task": "Prepare Refund Report",
+          "actionPlan": "Track refunded items",
+          "remarks": "Pending"
+        },
+        "Task5": {
+          "task": "Organize Backroom Inventory",
+          "actionPlan": "Sort items and update inventory list",
+          "remarks": "Pending"
+        },
+        "Task6": {
+          "task": "Clean Workstation",
+          "actionPlan": "Maintain cleanliness of counter area",
+          "remarks": "Pending"
+        },
+        "Task7": {
+          "task": "Assist Counter 1",
+          "actionPlan": "Support team in busy times",
+          "remarks": "Pending"
+        },
+        "Task8": {
+          "task": "Process Online Orders",
+          "actionPlan": "Pack and prepare orders for delivery",
+          "remarks": "Pending"
+        },
+        "Task9": {
+          "task": "Submit End-of-Day Report",
+          "actionPlan": "Summarize daily activities",
+          "remarks": "Pending"
+        },
+        "Task10": {
+          "task": "Replenish Office Supplies",
+          "actionPlan": "Monitor and restock supplies as needed",
+          "remarks": "Pending"
+        }
+      }
+    },
+    {
+      "position": "Back Office",
+      "tasks": {
+        "Task1": {
+          "task": "Prepare Financial Reports",
+          "actionPlan": "Analyze sales and expenses",
+          "remarks": "Done"
+        },
+        "Task2": {
+          "task": "Monitor Supply Chain",
+          "actionPlan": "Ensure timely delivery of goods",
+          "remarks": "Done"
+        },
+        "Task3": {
+          "task": "Handle Payroll",
+          "actionPlan": "Process employee payments",
+          "remarks": "Pending"
+        },
+        "Task4": {
+          "task": "Update Database",
+          "actionPlan": "Add new client records",
+          "remarks": "Pending"
+        },
+        "Task5": {
+          "task": "Manage Vendor Relationships",
+          "actionPlan": "Communicate with suppliers for better deals",
+          "remarks": "Pending"
+        },
+        "Task6": {
+          "task": "Submit Monthly Reports",
+          "actionPlan": "Compile data for management review",
+          "remarks": "Pending"
+        },
+        "Task7": {
+          "task": "Review Contracts",
+          "actionPlan": "Check legal documents for compliance",
+          "remarks": "Pending"
+        },
+        "Task8": {
+          "task": "File Taxes",
+          "actionPlan": "Prepare necessary tax forms",
+          "remarks": "Pending"
+        },
+        "Task9": {
+          "task": "Organize Team Files",
+          "actionPlan": "Sort and digitize important documents",
+          "remarks": "Pending"
+        },
+        "Task10": {
+          "task": "Manage Office Budget",
+          "actionPlan": "Track spending and allocate funds",
+          "remarks": "Pending"
+        }
+      }
+    }
+  ]
+}

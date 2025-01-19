@@ -1,0 +1,46 @@
+{
+  "Accounts": [
+    {
+      "username": "admin",
+      "password": "1234",
+      "name": "Admin",
+      "position": "Admin",
+      "email": ""
+    },
+    {
+      "username": "benju",
+      "password": "1234",
+      "name": "Karyl Mae Tagoctoc",
+      "position": "Leader",
+      "email": "bnjcrps@gmail.com"
+    },
+    {
+      "username": "meme",
+      "password": "1234",
+      "name": "Benju Corpuz",
+      "position": "Counter 1",
+      "email": "benjusokor@gmail.com"
+    },
+    {
+      "username": "reggie",
+      "password": "1234",
+      "name": "Reggie Yra",
+      "position": "Back Office",
+      "email": "benjucorpuz070309@gmail.com"
+    },
+    {
+      "username": "nikki",
+      "password": "1234",
+      "name": "Nikki Ortega",
+      "position": "Counter 2",
+      "email": "benju@riway.com"
+    },
+    {
+      "username": "charles",
+      "password": "1234",
+      "name": "Charles Laurence",
+      "position": "Leader",
+      "email": "lancegula05@gmail.com"
+    }
+  ]
+}
