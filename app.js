@@ -290,7 +290,6 @@ cron.schedule('00 17 * * *', () => {
 });
 
 
-scheduledSendEmail();
 app.listen(PORT, () => {
 console.log(`Server running on port ${PORT}`);
 });
