@@ -290,6 +290,11 @@ cron.schedule('00 17 * * *', () => {
 });
 
 
+// This should be the LAST route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
 console.log(`Server running on port ${PORT}`);
 });
