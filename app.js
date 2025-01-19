@@ -11,7 +11,6 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,8 +24,7 @@ app.use(cors());
 
 // To parse JSON bodies// for parsing application/json
 app.use(express.json()); 
-
-console.log(process.env.EMAIL);
+app.use(express.static('public'));
 
 const recipientEmails = [
     process.env.EMAIL,
@@ -46,6 +44,39 @@ const transporter = nodemailer.createTransport({
 });
 
  
+// Add authentication endpoint
+app.post('/api/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        
+        // Read users from JSON file on the server
+        const usersData = await fs.readFile(path.join(__dirname, 'data', 'users.json'), 'utf8');
+        const users = JSON.parse(usersData);
+        const accounts = users.Accounts;
+        
+        const user = accounts.find(account => 
+            account.username === username && 
+            account.password === password
+        );
+
+        if (user) {
+            // Don't send password back to client
+            const safeUser = {
+                username: user.username,
+                name: user.name,
+                position: user.position,
+                email: user.email
+            };
+            res.json({ success: true, user: safeUser });
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // Endpoint to send an email
 app.post('/send-email', (req, res) => {
     const { recipient, emailBody } = req.body; // Get recipient email from request body

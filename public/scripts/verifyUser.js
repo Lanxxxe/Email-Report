@@ -1,93 +1,66 @@
-const getUsers = () => {
-    return fetch('scripts/storage/users.json')
-        .then(response => response.json())
-        .then(data => {
-            return data;
+const verifyUser = async (username, password) => {
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
         });
-};
 
-const fetchData = () => {
-    return getUsers().then(users => {
-        let accounts = users['Accounts']; // Access the 'Accounts' key if it exists
-        return accounts;
-    });
-};
+        const data = await response.json();
 
-/*
-**********************************************
-            USER VERIFICATION LOGIC
-********************************************** 
-*/
+        if (data.success) {
+            const currentUser = data.user;
+            localStorage.setItem('User', JSON.stringify(currentUser));
 
-const verifyUser = (username, password) => {
-    // Check if the provided username and password match any in the Accounts array
-    fetchData().then(accounts => {
-        console.log(accounts);
-        const user = accounts.find(account => account.username === username && account.password === password);
-        // const user = 
-        let currentUser;
-        
-        if (user) {
-            // If user credentials are correct, save user info to currentUser dictionary
-        currentUser = {
-            username: user.username,
-            name: user.name,
-            position: user.position,
-            email: user.email
-        };
-        
-        localStorage.setItem('User', JSON.stringify(currentUser));
-
-        // Success alert using SweetAlert
-        Swal.fire({
-            title: 'Login Successful!',
-            text: `Welcome, ${user.name}!`,
-            icon: 'success',
-            confirmButtonText: 'OK'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (currentUser.position == "Admin") {
-                    window.location.href = 'iAdminDashboard.html';    
-                } else {
-                    // Redirect to another page after clicking "OK"
-                    window.location.href = 'iUserDashboard.html';  // Change to your desired page
+            // Success alert using SweetAlert
+            Swal.fire({
+                title: 'Login Successful!',
+                text: `Welcome, ${currentUser.name}!`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (currentUser.position === "Admin") {
+                        window.location.href = 'iAdminDashboard.html';    
+                    } else {
+                        window.location.href = 'iUserDashboard.html';
+                    }
                 }
-            }
-        });
-        return true;
-    } else {
-        // Error alert using SweetAlert
+            });
+        } else {
+            // Error alert using SweetAlert
+            Swal.fire({
+                title: 'Invalid Credentials!',
+                text: 'Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Login error:', error);
         Swal.fire({
-            title: 'Invalid Credentials!',
-            text: 'Please try again.',
+            title: 'Server Error',
+            text: 'Please try again later.',
             icon: 'error',
             confirmButtonText: 'OK'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Reload the current page after clicking "OK"
-                window.location.reload();  // Reload the current page
-            };
         });
-        return false;
     }
-});
 };
 
+// Your event listener code remains the same
 document.addEventListener("DOMContentLoaded", () => {
-    /* 
-    **********************************************
-                  USER LOGIN LOGIC
-    ********************************************** 
-    */
     const userUsername = document.querySelector('#username');
     const userPassword = document.querySelector('#password');
     const loginButton = document.querySelector('#loginButton');
 
     loginButton.addEventListener('click', (event) => {
-        // Prevent default form submission behavior
         event.preventDefault();
-
-        // Call verifyUser function with username and password values
         verifyUser(userUsername.value, userPassword.value);
     });
-});
+})
