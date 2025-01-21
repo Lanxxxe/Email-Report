@@ -1,10 +1,3 @@
-// Create axios instance
-const api = axios.create({
-    baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3000'
-        : 'https://email-report.onrender.com'
-});
-
 // Logout Function
 const logoutUser = () => {
     try {
@@ -19,7 +12,11 @@ const logoutUser = () => {
 
 // Load the users.json file
 const loadUsers = async () => {
-
+    const api = axios.create({
+        baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://email-report.onrender.com'
+    });
     try {
         const response = await api.get('/api/users');
         const data = response.data; // Axios automatically parses JSON
@@ -84,6 +81,11 @@ const generateUserForms = (users) => {
 
 // Update user position in users.json (this requires server-side handling)
 const updateUserPosition = async (username, newPosition) => {
+    const api = axios.create({
+        baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://email-report.onrender.com'
+    });
     try {
         // Send a POST request to update the user's position
         await api.post('/updateUserPosition', {

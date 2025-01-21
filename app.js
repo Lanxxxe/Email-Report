@@ -209,9 +209,7 @@ app.get('/api/weekly-report', async (req, res) => {
             summary
         });
 
-        console.log('Weekly report data sent.');
     } catch (error) {
-        console.error('Error reading progress data for weekly report:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Error reading progress data for weekly report'
@@ -232,8 +230,6 @@ app.post('/api/save-daily-report', async (req, res) => {
             const existingData = await fs.readFile(progressPath, 'utf8');
             progressData = JSON.parse(existingData);
         } catch (error) {
-            // If file doesn't exist or is invalid, start with empty object
-            console.log('Creating new progress file');
         }
 
         // Update the progress data
@@ -268,7 +264,6 @@ app.post('/api/save-daily-report', async (req, res) => {
 // Endpoint to update user position in users.json
 app.post("/updateUserPosition", async (req, res) => {
     const { username, position } = req.body;
-    console.log('Received update request for:', username, 'with position:', position);
 
     const usersPath = path.join(__dirname, 'data', 'users.json');
 
@@ -279,7 +274,6 @@ app.post("/updateUserPosition", async (req, res) => {
         const users = JSON.parse(data);
         const user = users.Accounts.find(user => user.username === username);
         
-        console.log(user);
         if (user) {
             console.log('Updating user:', user);
             user.position = position;  // Update only the position
@@ -287,7 +281,6 @@ app.post("/updateUserPosition", async (req, res) => {
             // Write the updated data back to users.json
             fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
                 if (err) {
-                    console.error("Error writing to users.json", err);
                     return res.status(500).send("Error saving user data");
                 }
                 res.send("User position updated successfully");
@@ -296,7 +289,6 @@ app.post("/updateUserPosition", async (req, res) => {
             res.status(404).send("User not found");
         }
     } catch (err) {
-        console.error('Error processing update request:', err);
         res.status(500).send("An error occurred while processing the request");
     }
 });
