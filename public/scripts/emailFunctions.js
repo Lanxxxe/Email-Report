@@ -1,9 +1,3 @@
-/*
-**********************************************
-PROGRESS CALCULATION AND GENERATING PENDING TASK
-********************************************** 
-*/
-
 // Function to calculate task progress
 export const calculateProgress = (tasks) => {
     const totalTasks = Object.keys(tasks).length;

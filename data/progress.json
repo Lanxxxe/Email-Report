@@ -159,6 +159,122 @@
         "Assigned Person": "Benju Corpuz",
         "Total Tasks": 10,
         "Task Done": 5
+      },
+      "Leader": {
+        "Assigned Person": "Karyl Mae Tagoctoc",
+        "Tasks": {
+          "Task1": {
+            "task": "Complete Project Proposal",
+            "actionPlan": "Research and write the project details",
+            "remarks": "Done"
+          },
+          "Task2": {
+            "task": "Complete Design UI Mockup",
+            "actionPlan": "Prepare wireframes and prototypes",
+            "remarks": "Done"
+          },
+          "Task3": {
+            "task": "Schedule Team Meeting",
+            "actionPlan": "Send meeting invites",
+            "remarks": "Done"
+          },
+          "Task4": {
+            "task": "Prepare Budget Report",
+            "actionPlan": "Analyze financial data",
+            "remarks": "Done"
+          },
+          "Task5": {
+            "task": "Submit Monthly Report",
+            "actionPlan": "Gather relevant data",
+            "remarks": "Pending"
+          },
+          "Task6": {
+            "task": "Plan Next Sprint",
+            "actionPlan": "Review backlog and prioritize tasks",
+            "remarks": "Pending"
+          },
+          "Task7": {
+            "task": "Update Stakeholders",
+            "actionPlan": "Draft and send email update",
+            "remarks": "Pending"
+          },
+          "Task8": {
+            "task": "Evaluate Team Performance",
+            "actionPlan": "Review KPIs",
+            "remarks": "Pending"
+          },
+          "Task9": {
+            "task": "Resolve Team Issues",
+            "actionPlan": "Address concerns raised by team members",
+            "remarks": "Pending"
+          },
+          "Task10": {
+            "task": "Submit Final Project Plan",
+            "actionPlan": "Finalize and present the plan to stakeholders",
+            "remarks": "Pending"
+          }
+        },
+        "Total Tasks": 10,
+        "Task Done": 4
+      }
+    },
+    "1/21/2025": {
+      "Counter 1": {
+        "Assigned Person": "Benju Corpuz",
+        "Tasks": {
+          "Task1": {
+            "task": "Check Customer",
+            "actionPlan": "Check and update customer",
+            "remarks": "Done"
+          },
+          "Task2": {
+            "task": "Assist Customers",
+            "actionPlan": "Provide information and resolve queries",
+            "remarks": "Done"
+          },
+          "Task3": {
+            "task": "Manage Returns",
+            "actionPlan": "Process returned items and update system",
+            "remarks": "Done"
+          },
+          "Task4": {
+            "task": "Organize Product Display",
+            "actionPlan": "Ensure products are neatly arranged",
+            "remarks": "Done"
+          },
+          "Task5": {
+            "task": "Prepare Sales Report",
+            "actionPlan": "Gather daily sales data",
+            "remarks": "Done"
+          },
+          "Task6": {
+            "task": "Handle Payments",
+            "actionPlan": "Process cash and card transactions",
+            "remarks": "Done"
+          },
+          "Task7": {
+            "task": "Submit Daily Cash Count",
+            "actionPlan": "Reconcile cash drawer and submit report",
+            "remarks": "Pending"
+          },
+          "Task8": {
+            "task": "Update Promotions",
+            "actionPlan": "Change price tags for promotional items",
+            "remarks": "Pending"
+          },
+          "Task9": {
+            "task": "Respond to Emails",
+            "actionPlan": "Reply to customer inquiries",
+            "remarks": "Pending"
+          },
+          "Task10": {
+            "task": "Restock Shelves",
+            "actionPlan": "Move items from the backroom to shelves",
+            "remarks": "Pending"
+          }
+        },
+        "Total Tasks": 10,
+        "Task Done": 6
       }
     }
   }

@@ -2,7 +2,7 @@ const logoutUser = () => {
     try {
         localStorage.removeItem('User');
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
     location.replace('index.html'); // Force immediate redirect to the login page
 };
@@ -95,19 +95,29 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutButton.addEventListener('click', logoutUser);
     
 
+    // Create axios instance
+    const api = axios.create({
+        baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://email-report.onrender.com'
+    });
+
 
     // Fetch JSON data and render today's chart
-    fetch("./scripts/storage/progress.json")
-        .then(response => response.json())
-        .then(jsonData => {
+    api.get("/api/progress")
+    .then(response => {
+        const jsonData = response.data;
         const todayData = getTodayData(jsonData);
         if (Object.keys(todayData).length) {
             renderTodayChart(todayData);
         } else {
             canvasContainer.style.display = 'none';
-            document.querySelector("#no-data").innerHTML = "No data available for today."
-            console.log("No data available for today.");
+            document.querySelector("#no-data").innerHTML = "No data available for today.";
+            alert("No data available for today.");
         }
+    })
+    .catch(error => {
+        console.error("Error fetching data:", error);
     });
 
     

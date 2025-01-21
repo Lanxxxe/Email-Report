@@ -1,11 +1,16 @@
-
+// Create axios instance
+const api = axios.create({
+    baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000'
+        : 'https://email-report.onrender.com'
+});
 
 // Logout Function
 const logoutUser = () => {
     try {
         localStorage.removeItem('User');
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
     // Redirect immediately after removing User from storage
     location.replace('index.html');
@@ -14,18 +19,19 @@ const logoutUser = () => {
 
 // Load the users.json file
 const loadUsers = async () => {
+
     try {
-        const response = await fetch('./scripts/storage/users.json');
-        const data = await response.json();
-        return data.Accounts;
+        const response = await api.get('/api/users');
+        const data = response.data; // Axios automatically parses JSON
+        return data.Accounts || []; // Safeguard in case Accounts is undefined
     } catch (error) {
-        console.error('Error loading users:', error);
-        return [];
+        alert('Error loading users:', error);
+        return []; // Return an empty array on error
     }
 };
 
 
-    // Generate form for each user except admin
+// Generate form for each user except admin
 const generateUserForms = (users) => {
     users.forEach(user => {
         if (user.position === 'Admin') return; // Skip admin user
@@ -79,18 +85,15 @@ const generateUserForms = (users) => {
 // Update user position in users.json (this requires server-side handling)
 const updateUserPosition = async (username, newPosition) => {
     try {
-        // Simulated API request to update position
-        await fetch(`http://192.168.100.30:3000/updateUserPosition`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, position: newPosition })
+        // Send a POST request to update the user's position
+        await api.post('/updateUserPosition', {
+            username,
+            position: newPosition
         });
-        console.log(`${username}'s position updated to ${newPosition}`);
         alert(`${username}'s position updated to ${newPosition}`);
         location.reload(true);
     
     } catch (error) {
-        console.error('Error updating position:', error);
         alert(`Error updating position: ${error}`);
         location.reload(true);
     }
@@ -115,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Parse User data and check position
     const parseUser = JSON.parse(getUser);
-    console.log(parseUser);
     if (parseUser) {
         document.querySelector('#user').innerHTML = `${parseUser.name}!`;
         if (parseUser.position !== "Admin") {

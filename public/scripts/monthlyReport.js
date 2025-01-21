@@ -3,7 +3,7 @@ const logoutUser = () => {
   try {
       localStorage.removeItem('User');
   } catch (error) {
-      console.log(error);
+      alert(error);
   }
   location.replace('index.html'); // Force immediate redirect to the login page
 };
@@ -123,17 +123,26 @@ const renderWeeklyReports = (weeklyAverages) => {
 document.addEventListener('DOMContentLoaded', () => {
   const getUser = localStorage.getItem('User');
     
-    if (!getUser) {
-        location.replace('index.html'); // Redirect if User is not in localStorage
-    }
-    logoutButton.addEventListener('click', logoutUser);
-    
+  if (!getUser) {
+      location.replace('index.html'); // Redirect if User is not in localStorage
+  }
+
+  logoutButton.addEventListener('click', logoutUser);
+
+  const api = axios.create({
+      baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:3000'
+          : 'https://email-report.onrender.com'
+  });
 
   // Fetch JSON data, calculate weekly averages, and render charts
-  fetch("./scripts/storage/progress.json")
-    .then(response => response.json())
-    .then(jsonData => {
-      const weeklyAverages = calculateWeeklyAverage(jsonData);
-      renderWeeklyReports(weeklyAverages);
+  api.get("/api/progress")
+    .then(response => {
+        const jsonData = response.data;
+        const weeklyAverages = calculateWeeklyAverage(jsonData);
+        renderWeeklyReports(weeklyAverages);
+    })
+    .catch(error => {
+        console.error("Error fetching data from API:", error);
     });
 })

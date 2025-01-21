@@ -1,22 +1,24 @@
-
 const logoutUser = () => {
     try {
         localStorage.removeItem('User');
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
-    location.replace('index.html'); // Force immediate redirect to the login page
-  };
+    location.replace('index.html');
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    /* 
-    **********************************************
-                  DISPLAYS THE USER
-    ********************************************** 
-    */
+    const logoutButton = document.querySelector('#logoutButton');
+    const saveProgressButton = document.querySelector('#sendButton');
     const getUser = localStorage.getItem('User');
     const currentUser = JSON.parse(getUser);
+    
+    // Create axios instance
+    const api = axios.create({
+        baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://email-report.onrender.com'
+    });
 
     if (currentUser) {
         document.querySelector('#InUser').innerHTML = currentUser.name;
@@ -25,35 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#InUser').innerHTML = 'Login First';
         document.querySelector('#userTask').innerHTML = 'Login First';
     }
-
-    /*
-    **********************************************
-                    USER LOGOUT LOGIC
-    ********************************************** 
-    */
-    const logoutButton = document.querySelector('#logoutButton');
     
-    logoutButton.addEventListener('click', logoutUser);
-        
-    
-    /*
-    **********************************************
-                  EMAIL SEND LOGIC
-    **********************************************
-    */ 
-    const saveProgressButton = document.querySelector('#sendButton');
-
     saveProgressButton.addEventListener('click', async () => {
         const data = new Date();
         const options = { timeZone: 'Asia/Manila' };
         const dateInAsia = new Intl.DateTimeFormat('en-US', options).format(data);
     
-        // Get user info and tasks from localStorage
         const userInfo = JSON.parse(localStorage.getItem('User'));
         const getTasks = JSON.parse(localStorage.getItem('UserTasks'));
         const assignedTasks = getTasks.AssignedTasks || [];
     
-        // Find the user's assigned tasks by position
         const userAssignedTasks = assignedTasks.find(task => task.position === userInfo.position);
     
         if (!userAssignedTasks) {
@@ -61,39 +44,41 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
     
-        // Update remarks for each task based on its current state
         const updatedTasks = {};
         Object.entries(userAssignedTasks.tasks).forEach(([taskId, taskData]) => {
-            // Set remarks based on some criteria, e.g., checking completion
             taskData.remarks = taskData.remarks === 'Done' ? 'Done' : 'Pending';
-            updatedTasks[taskId] = taskData;  // Save the updated task
+            updatedTasks[taskId] = taskData;
         });
     
-        // Calculate the task progress
         const tasksArray = Object.values(updatedTasks);
         const totalTasks = tasksArray.length;
         const completedTasks = tasksArray.filter(task => task.remarks === 'Done').length;
-        const progressPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-    
-        console.log(`Progress for ${userInfo.position}:`, progressPercentage, '%');
-    
-        // Prepare data for saving daily report
+        const progressPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;    
         try {
-            const response = await axios.post('http://192.168.100.30:3000/save-daily-report', {
+            const response = await api.post('/api/save-daily-report', {
                 AssignedTasks: {
                     position: userAssignedTasks.position,
                     assignedPerson: userInfo.name,
                     tasks: updatedTasks
                 },
                 personnel: userInfo.name,
-                date: dateInAsia // Format "YYYY-MM-DD"
+                date: dateInAsia
             });
-            alert(`Task successfully saved, Good job!`);
-            location.reload(true);
+            
+            Swal.fire({
+                title: 'Success!',
+                text: 'Task successfully saved, Good job!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => 'Okay');
         } catch (error) {
             if (error.response) {
-                alert(`Error: ${error.response.data.message} \nPlease check if the server is running`);
-                location.reload(true);
+                Swal.fire({
+                    title: 'Server Error!',
+                    text: `${error.response.data.message}\nPlease check if the server is running`,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => location.reload(true));
             } else {
                 Swal.fire({
                     title: 'An Error Occurred!',
@@ -101,112 +86,73 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
-                // console.error('Error saving report:', error.message);
             }
         }
     });
 
-// =====================================================================================================
-
-
-    /*
-    **********************************************
-                  DISPLAY TASK LOGIC
-    **********************************************
-    */
-    fetch('scripts/storage/task.json')
-    .then(response => response.json())
-    .then(data => {
-        // Check if UserTasks is already in localStorage
-        let userTasks = localStorage.getItem('UserTasks');
-        
-        if (!userTasks) {
-            // If no tasks in localStorage, save the data from the JSON file to localStorage
-            localStorage.setItem('UserTasks', JSON.stringify(data));
-            userTasks = data; // Use the JSON file's data
-        } else {
-            // If tasks are in localStorage, parse them
-            userTasks = JSON.parse(userTasks);
-        }
-
-        // Assuming userPosition is stored in localStorage or available globally
-        const userPosition = JSON.parse(localStorage.getItem('User')).position;
-
-        // Find the user's assigned tasks based on their position
-        if (Array.isArray(userTasks.AssignedTasks)) {
-            const assignedTasks = userTasks.AssignedTasks.find(task => task.position === userPosition);
-
-            if (assignedTasks && assignedTasks.tasks) {
-                const taskBody = document.querySelector('.task-body');
-                taskBody.innerHTML = ''; // Clear the table body before populating it
-
-                // Use Object.keys to loop through tasks since tasks is an object
-                Object.keys(assignedTasks.tasks).forEach((taskKey, index) => {
-                    const task = assignedTasks.tasks[taskKey];
-                    const isChecked = task.remarks === 'Done' ? 'checked' : ''; // Check if task is done
-
-                    // Create the row HTML
-                    const taskRow = `
-                        <tr>
-                            <td class="text-center">
-                                <input type="checkbox" class="progressCheckbox" ${isChecked} data-task-key="${taskKey}">
-                            </td>
-                            <td>${task.task}</td>
-                            <td>${task.actionPlan}</td>
-                            <td class="remarksColumn">${task.remarks}</td>
-                        </tr>
-                    `;
-
-                    // Insert the task row into the table body
-                    taskBody.insertAdjacentHTML('beforeend', taskRow);
-                });
-
-                // Add event listener for checkbox change to update task remarks and localStorage
-                document.querySelectorAll('.progressCheckbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', (event) => {
-                        const taskKey = event.target.getAttribute('data-task-key');
-                        const task = assignedTasks.tasks[taskKey];
-
-                        // Update remarks based on checkbox status
-                        task.remarks = event.target.checked ? 'Done' : 'Pending';
-
-                        // Update the UI (remarks column)
-                        event.target.closest('tr').querySelector('.remarksColumn').textContent = task.remarks;
-
-                        // Save the updated task data back to localStorage
-                        localStorage.setItem('UserTasks', JSON.stringify(userTasks));
-                    });
-                });
+    // Fetch tasks using axios
+    api.get('/api/tasks')
+        .then(response => {
+            const data = response.data;
+            let userTasks = localStorage.getItem('UserTasks');
+            
+            if (!userTasks) {
+                localStorage.setItem('UserTasks', JSON.stringify(data));
+                userTasks = data;
             } else {
-                console.error('No tasks found for the current user position.');
+                userTasks = JSON.parse(userTasks);
             }
-        } else {
-            console.error('AssignedTasks is not an array.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
 
+            const userPosition = JSON.parse(localStorage.getItem('User')).position;
+            
+            if (Array.isArray(userTasks.AssignedTasks)) {
+                const assignedTasks = userTasks.AssignedTasks.find(task => task.position === userPosition);
+                if (assignedTasks && assignedTasks.tasks) {
+                    const taskBody = document.querySelector('.task-body');
+                    taskBody.innerHTML = '';
+                    
+                    Object.keys(assignedTasks.tasks).forEach((taskKey) => {
+                        const task = assignedTasks.tasks[taskKey];
+                        const isChecked = task.remarks === 'Done' ? 'checked' : '';
+                        
+                        const taskRow = `
+                            <tr>
+                                <td class="text-center">
+                                    <input type="checkbox" class="progressCheckbox" ${isChecked} data-task-key="${taskKey}">
+                                </td>
+                                <td>${task.task}</td>
+                                <td>${task.actionPlan}</td>
+                                <td class="remarksColumn">${task.remarks}</td>
+                            </tr>
+                        `;
+                        taskBody.insertAdjacentHTML('beforeend', taskRow);
+                    });
 
-    let task = localStorage.getItem('UserTasks');
-    let information = JSON.parse(task);
-    // console.log(information);
+                    document.querySelectorAll('.progressCheckbox').forEach(checkbox => {
+                        checkbox.addEventListener('change', (event) => {
+                            const taskKey = event.target.getAttribute('data-task-key');
+                            const task = assignedTasks.tasks[taskKey];
+                            task.remarks = event.target.checked ? 'Done' : 'Pending';
+                            event.target.closest('tr').querySelector('.remarksColumn').textContent = task.remarks;
+                            localStorage.setItem('UserTasks', JSON.stringify(userTasks));
+                        });
+                    });
+                } else {
+                    console.error('No tasks found for the current user position.');
+                }
+            } else {
+                console.error('AssignedTasks is not an array.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching tasks:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to load tasks. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
 
-
-// =====================================================================================================
-
-})
-
-// fetch('scripts/weeklyProgress.json')
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data["Weekly Progress"]["October 18, 2024"]);
-// })
-
-
-// const data = new Date();
-// const dateToday = data.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-// console.log(dateToday); // Outputs the date in Asia/Manila timezone
-
-// const data = new Date()
-// const dateToday = data.toISOString();
-// console.log(dateToday.split('T'))
+    logoutButton.addEventListener('click', logoutUser);
+});
