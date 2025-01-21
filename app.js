@@ -264,27 +264,18 @@ app.post('/api/save-daily-report', async (req, res) => {
 // Endpoint to update user position in users.json
 app.post("/updateUserPosition", async (req, res) => {
     const { username, position } = req.body;
-
-    const usersPath = path.join(__dirname, 'data', 'users.json');
-
+    const usersPath = path.resolve(__dirname, 'data', 'users.json');
     try {
         const data = await fs.readFile(usersPath, 'utf8');
-
         // Parse the data and find the specific user to update
         const users = JSON.parse(data);
         const user = users.Accounts.find(user => user.username === username);
-        
         if (user) {
             console.log('Updating user:', user);
             user.position = position;  // Update only the position
-
             // Write the updated data back to users.json
-            fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
-                if (err) {
-                    return res.status(500).send("Error saving user data");
-                }
-                res.send("User position updated successfully");
-            });
+            await fs.promises.writeFile(usersPath, JSON.stringify(users, null, 2));
+            res.send("User position updated successfully");
         } else {
             res.status(404).send("User not found");
         }
